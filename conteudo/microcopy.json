@@ -1,0 +1,83 @@
+{
+  "checkout": {
+    "title": "Falta pouco para facilitar sua rotina",
+    "steps": [
+      "Seus dados",
+      "Entrega",
+      "Pagamento"
+    ],
+    "fields": [
+      "Nome completo",
+      "CPF",
+      "E-mail",
+      "WhatsApp",
+      "CEP",
+      "Endereço",
+      "Número",
+      "Sem número",
+      "Complemento opcional",
+      "Bairro",
+      "Cidade",
+      "Estado"
+    ],
+    "sameAddress": "Este endereço também será usado na nota fiscal",
+    "coupon": "Tem um cupom",
+    "applyCoupon": "Aplicar cupom",
+    "couponInvalid": "Este cupom não está disponível para este pedido",
+    "terms": "Li e aceito os termos de compra e a política de trocas e devoluções",
+    "privacy": "Saiba como seus dados são usados na Política de privacidade",
+    "whatsappOptIn": "Quero receber atualizações deste pedido e da nota fiscal pelo WhatsApp",
+    "review": "Confira voltagem, quantidade e endereço antes de pagar",
+    "payPix": "Gerar Pix",
+    "payCard": "Pagar com cartão",
+    "processing": "Estamos processando seu pagamento",
+    "pending": "Aguardando confirmação do pagamento",
+    "declined": "Não foi possível aprovar o pagamento. Confira os dados ou escolha outra forma de pagamento.",
+    "unknown": "Estamos verificando o resultado. Aguarde antes de tentar novamente.",
+    "requiredVoltage": "Selecione a voltagem para continuar",
+    "genericError": "Não foi possível concluir agora. Tente novamente em instantes."
+  },
+  "pix": {
+    "title": "Pague pelo aplicativo do seu banco",
+    "copy": "Copiar código Pix",
+    "copied": "Código copiado",
+    "expiry": "Tempo disponível para pagar",
+    "expired": "O prazo deste Pix terminou",
+    "regenerate": "Gerar novo Pix",
+    "note": "O pedido será confirmado após a validação do pagamento"
+  },
+  "success": {
+    "title": "Pagamento confirmado",
+    "body": "Obrigado por escolher a Zelo de Casa. Vamos preparar seu pedido e avisar quando ele for postado.",
+    "action": "Acompanhar meu pedido"
+  },
+  "tracking": {
+    "title": "Acompanhe seu pedido",
+    "field": "Número do pedido",
+    "action": "Consultar pedido",
+    "notFound": "Não foi possível localizar o pedido com os dados informados",
+    "privacy": "Para ver documentos e dados pessoais, confirme o acesso pelo link enviado ao seu e-mail",
+    "track": "Rastrear na transportadora"
+  },
+  "cookies": {
+    "title": "Você escolhe como navegar",
+    "body": "Usamos recursos essenciais para a compra funcionar. Com sua autorização, também usamos análise de visitas e publicidade.",
+    "accept": "Aceitar todos",
+    "reject": "Recusar opcionais",
+    "manage": "Personalizar",
+    "save": "Salvar preferências"
+  },
+  "admin": {
+    "title": "Gestão da Zelo de Casa",
+    "empty": "Nenhum pedido encontrado",
+    "actions": [
+      "Adicionar rastreamento",
+      "Anexar nota fiscal",
+      "Atualizar status",
+      "Reenviar notificação",
+      "Solicitar reembolso"
+    ],
+    "refundConfirm": "Confira o pedido e o valor antes de confirmar o reembolso",
+    "otp": "Digite o código enviado ao seu e-mail"
+  }
+}

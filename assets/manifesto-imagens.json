@@ -1,0 +1,42 @@
+[
+  {
+    "file": "imagens/01-hero.png",
+    "alt": "Mini Processador Britânia 2P preto em bancada clara de cozinha",
+    "kind": "Imagem gerada por IA a partir de referência",
+    "validation": "Conferir marcações, lâmina e proporções contra fotos oficiais antes de publicar. Não usar como prova de resultado de corte",
+    "desktopObjectPosition": "65% 50%",
+    "mobileInstruction": "Preservar produto inteiro com object-fit contain; não cortar motor ou jarra"
+  },
+  {
+    "file": "imagens/02-uso.png",
+    "alt": "Mão acionando o mini processador com alho e cebola no recipiente",
+    "kind": "Imagem gerada por IA a partir de referência",
+    "validation": "Conferir marcações, lâmina e proporções contra fotos oficiais antes de publicar. Não usar como prova de resultado de corte",
+    "desktopObjectPosition": "50% 50%",
+    "mobileInstruction": "Preservar produto inteiro com object-fit contain; não cortar motor ou jarra"
+  },
+  {
+    "file": "imagens/03-temperos.png",
+    "alt": "Mini processador com ingredientes e ervas em uma cozinha acolhedora",
+    "kind": "Imagem gerada por IA a partir de referência",
+    "validation": "Conferir marcações, lâmina e proporções contra fotos oficiais antes de publicar. Não usar como prova de resultado de corte",
+    "desktopObjectPosition": "50% 50%",
+    "mobileInstruction": "Preservar produto inteiro com object-fit contain; não cortar motor ou jarra"
+  },
+  {
+    "file": "imagens/04-detalhe.png",
+    "alt": "Detalhe ilustrativo do recipiente transparente e acabamento preto",
+    "kind": "Imagem gerada por IA a partir de referência",
+    "validation": "Conferir marcações, lâmina e proporções contra fotos oficiais antes de publicar. Não usar como prova de resultado de corte",
+    "desktopObjectPosition": "50% 50%",
+    "mobileInstruction": "Preservar produto inteiro com object-fit contain; não cortar motor ou jarra"
+  },
+  {
+    "file": "imagens/05-oferta.png",
+    "alt": "Mini processador preto acompanhado de alho, cebola e ervas",
+    "kind": "Imagem gerada por IA a partir de referência",
+    "validation": "Conferir marcações, lâmina e proporções contra fotos oficiais antes de publicar. Não usar como prova de resultado de corte",
+    "desktopObjectPosition": "50% 50%",
+    "mobileInstruction": "Preservar produto inteiro com object-fit contain; não cortar motor ou jarra"
+  }
+]

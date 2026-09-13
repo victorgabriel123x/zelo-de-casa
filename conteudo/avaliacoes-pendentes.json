@@ -1,0 +1,28 @@
+{
+  "publish": false,
+  "reason": "Inicialmente descritas como fictícias na conversa e depois declaradas como dados próprios sem fonte. Não publicar como experiência real até comprovar origem e correspondência ao produto ou à loja. Não inventar selo Compra verificada",
+  "claimedRating": 4.9,
+  "claimedCount": 4356,
+  "items": [
+    {
+      "name": "Rafael",
+      "text": "Facilitou bastante o preparo dos temperos. Muito prático para a rotina!"
+    },
+    {
+      "name": "Julia",
+      "text": "Gostei do tamanho compacto, cabe direitinho na minha cozinha."
+    },
+    {
+      "name": "Ana",
+      "text": "Uso para picar alho e cebola. Ajuda muito na hora de preparar o almoço!"
+    },
+    {
+      "name": "Sonia",
+      "text": "Achei fácil de usar e de limpar depois do preparo."
+    },
+    {
+      "name": "Chris",
+      "text": "Para pequenas porções, tem sido uma boa ajuda no dia a dia."
+    }
+  ]
+}

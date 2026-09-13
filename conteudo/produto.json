@@ -1,0 +1,37 @@
+{
+  "brand": "Zelo de Casa",
+  "slogan": "Praticidade que cuida da sua rotina",
+  "manufacturer": "Britânia",
+  "name": "Mini Processador Britânia 2P",
+  "currency": "BRL",
+  "priceCents": 20000,
+  "referencePriceCents": 35000,
+  "referencePriceSource": "Informado pelo vendedor como preço anterior real",
+  "color": "Preto",
+  "voltages": [
+    "127 V",
+    "220 V"
+  ],
+  "powerWatts": 160,
+  "capacityMl": 360,
+  "weightKg": 0.68,
+  "dimensionsCm": {
+    "width": 21,
+    "height": 14.5,
+    "depth": 10
+  },
+  "availability": "Disponível para envio",
+  "inventoryMode": "continuous",
+  "shippingCostCents": 0,
+  "dispatchBusinessDays": 2,
+  "deliveryBusinessDaysAfterDispatch": 8,
+  "email": "contato@vlds.com.br",
+  "pixRequestedExpirationMinutes": 30,
+  "maxInstallments": 10,
+  "interestFreeInstallments": 2,
+  "installmentRates": null,
+  "guarantee": "Garantia de fábrica conforme o manual, além dos direitos legais aplicáveis",
+  "manufacturerSource": "https://catalogo.britania.com.br/Produto/063301004/846",
+  "verifiedReviews": [],
+  "aggregateRating": null
+}

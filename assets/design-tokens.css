@@ -1,0 +1,14 @@
+:root {
+ --cream:#F7F1E8; --white:#FFFFFF; --terracotta:#C65D3A; --action:#A74429; --action-hover:#87351F; --ink:#2A211D; --muted:#67584F; --beige:#E6D3C1; --sage:#74815D; --error:#A52626; --success:#355B3B;
+ --font-title:'Fraunces',Georgia,serif; --font-body:'Inter',Arial,sans-serif;
+ --radius-card:24px; --radius-control:12px; --container:1200px;
+ --shadow:0 14px 40px rgb(42 33 29 / .08); --ease:cubic-bezier(.22,1,.36,1);
+}
+.zelo-button {background:var(--action);color:#fff;border:0;border-radius:var(--radius-control);padding:16px 24px;font:600 16px var(--font-body);min-height:48px;cursor:pointer;transition:background .2s,transform .2s}
+.zelo-button:hover {background:var(--action-hover);transform:translateY(-1px)}
+:focus-visible {outline:3px solid var(--ink);outline-offset:4px}
+@keyframes zelo-float {50% {transform:translateY(-8px) rotate(3deg)}}
+@keyframes zelo-heart {50% {transform:scale(1.06)}}
+.zelo-float {animation:zelo-float 7s ease-in-out infinite}
+.zelo-heart {animation:zelo-heart .6s ease-in-out 1;transform-origin:center}
+@media(prefers-reduced-motion:reduce) {*,*::before,*::after {animation:none!important;transition:none!important;scroll-behavior:auto!important}}
