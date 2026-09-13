@@ -111,6 +111,12 @@ para `https://SEU-DOMINIO/api/notificacoes/processar` com o cabeçalho
 `Authorization: Bearer CRON_SEGREDO`. Em outra hospedagem, vale o mesmo. O endpoint aceita
 GET e POST e processa até 30 itens por chamada.
 
+## Configurar Supabase e Asaas
+
+O passo a passo completo, com o caminho de cada tela nos dois paineis, checklist
+de teste em sandbox e solucao dos erros mais comuns, esta em
+[MANUAL-SUPABASE-E-ASAAS.md](MANUAL-SUPABASE-E-ASAAS.md).
+
 ## Publicar
 
 O projeto foi pensado para a Vercel. Suba o repositório, configure as variáveis de

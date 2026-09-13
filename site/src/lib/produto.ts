@@ -45,21 +45,25 @@ export function variantePorCodigo(codigo: string): Variante | undefined {
   return VARIANTES.find((v) => v.codigo === codigo);
 }
 
-// Parcelamento. interestFreeInstallments = 2 e installmentRates = null no kit.
-// Sem tabela de juros validada, 3x a 10x permanecem desabilitadas de forma explicita.
+// Parcelamento no cartao.
+//
+// 1x e 2x saem sem juros. De 3x a 10x a loja repassa juros ao comprador, porque
+// receber parcelado tem custo de antecipacao junto ao Asaas.
+//
+// AJUSTE jurosAoMes COM A SUA TABELA REAL DO ASAAS antes de vender. O valor
+// abaixo e uma taxa de mercado comum, nao um numero conferido no seu contrato.
+// O que o comprador ve na tela e exatamente o que e cobrado: o total com juros
+// vira o totalValue enviado ao Asaas.
 export const PARCELAMENTO = {
   maximoTecnico: 10,
   semJuros: 2,
-  tabelaJuros: null as null | Record<number, number>,
+  /** Juros ao mes, em decimal, aplicados da 3a parcela em diante (tabela Price). */
+  jurosAoMes: 0.0299,
 } as const;
 
 export function parcelasDisponiveis(): number[] {
-  const lista = [1, 2];
-  if (PARCELAMENTO.tabelaJuros) {
-    for (let n = 3; n <= PARCELAMENTO.maximoTecnico; n += 1) {
-      if (PARCELAMENTO.tabelaJuros[n] !== undefined) lista.push(n);
-    }
-  }
+  const lista: number[] = [];
+  for (let n = 1; n <= PARCELAMENTO.maximoTecnico; n += 1) lista.push(n);
   return lista;
 }
 

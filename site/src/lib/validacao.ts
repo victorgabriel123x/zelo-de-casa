@@ -58,6 +58,16 @@ export const esquemaConsentimentos = z.object({
   whatsappOptIn: z.boolean().default(false),
 });
 
+/** Primeira etapa do checkout: identificacao e entrega, sem nada de pagamento. */
+export const esquemaEntrega = z.object({
+  comprador: esquemaComprador,
+  endereco: esquemaEndereco,
+});
+
+export type EntradaEntrega = z.infer<typeof esquemaEntrega>;
+export type EntradaComprador = z.infer<typeof esquemaComprador>;
+export type EntradaEndereco = z.infer<typeof esquemaEndereco>;
+
 export const esquemaPedido = z.object({
   itens: z.array(esquemaItem).min(1, "Selecione a voltagem para continuar"),
   cupom: z.string().trim().max(40).optional().default(""),

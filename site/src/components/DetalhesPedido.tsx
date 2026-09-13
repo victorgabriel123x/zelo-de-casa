@@ -32,7 +32,44 @@ export function ResumoPedido({ pedido }: { pedido: Pedido }) {
           {formatarCentavos(pedido.totalCentavos)}
         </strong>
       </div>
+
+      <CondicaoPagamento pedido={pedido} />
     </div>
+  );
+}
+
+/**
+ * Parcelado com juros, o valor cobrado no cartao e maior que o total dos
+ * produtos. Quem comprou precisa ver aqui o mesmo numero que vai aparecer na
+ * fatura, senao o comprovante nao bate com a cobranca.
+ */
+function CondicaoPagamento({ pedido }: { pedido: Pedido }) {
+  const pagamento = pedido.pagamentos.find((p) => p.ativo) ?? pedido.pagamentos.at(-1);
+  if (!pagamento) return null;
+
+  if (pagamento.forma !== "CARTAO") {
+    return (
+      <p className="texto-pequeno texto-suave" style={{ margin: "14px 0 0" }}>
+        Pagamento no Pix, à vista.
+      </p>
+    );
+  }
+
+  const comJuros = pagamento.valorCentavos > pedido.totalCentavos;
+  return (
+    <p className="texto-pequeno texto-suave" style={{ margin: "14px 0 0" }}>
+      No cartão em {pagamento.parcelas}x de{" "}
+      {formatarCentavos(Math.round(pagamento.valorCentavos / pagamento.parcelas))}
+      {comJuros ? (
+        <>
+          {" "}
+          com juros. Valor total cobrado no cartão:{" "}
+          <strong>{formatarCentavos(pagamento.valorCentavos)}</strong>.
+        </>
+      ) : (
+        " sem juros."
+      )}
+    </p>
   );
 }
 

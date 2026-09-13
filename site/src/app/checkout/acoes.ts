@@ -4,10 +4,11 @@ import { redirect } from "next/navigation";
 import { headers } from "next/headers";
 import { ErroAsaas } from "@/lib/asaas";
 import { liberarPedidoNoNavegador } from "@/lib/acesso-pedido";
+import { guardarDadosEntrega, lerDadosEntrega, limparDadosEntrega } from "@/lib/checkout-sessao";
 import { ErroDeNegocio, iniciarPagamentoCartao, iniciarPagamentoPix, registrarPedido } from "@/lib/pedidos";
 import { ipDaRequisicao, limitar } from "@/lib/rate-limit";
-import { esquemaCartao, esquemaPedido } from "@/lib/validacao";
-import { itensDaConsulta } from "@/lib/carrinho";
+import { esquemaCartao, esquemaEntrega, esquemaPedido } from "@/lib/validacao";
+import { itensDaConsulta, itensParaConsulta } from "@/lib/carrinho";
 
 export type EstadoCheckout = { ok: boolean; erro?: string; campo?: string };
 
@@ -21,29 +22,35 @@ function marcado(dados: FormData, chave: string): boolean {
   return valor === "on" || valor === "true";
 }
 
-export async function enviarPedido(
-  _anterior: EstadoCheckout,
-  dados: FormData,
-): Promise<EstadoCheckout> {
-  const cabecalhos = await headers();
-  const ip = ipDaRequisicao(cabecalhos);
-  if (!limitar(`checkout:${ip}`, 12, 60_000)) {
-    return { ok: false, erro: "Muitas tentativas em pouco tempo. Aguarde um instante." };
-  }
-
-  const itens = itensDaConsulta({
+function itensDoFormulario(dados: FormData) {
+  return itensDaConsulta({
     v: texto(dados, "v"),
     q: texto(dados, "q"),
     outra: texto(dados, "outra"),
     q2: texto(dados, "q2"),
   });
+}
 
-  const formaPagamento = texto(dados, "formaPagamento") === "CARTAO" ? "CARTAO" : "PIX";
-  const parcelasBrutas = Number(texto(dados, "parcelas") || "1");
+/**
+ * Etapa 1: identificacao e entrega.
+ * Valida, guarda em cookie assinado e leva para a tela de pagamento.
+ */
+export async function salvarEntrega(
+  _anterior: EstadoCheckout,
+  dados: FormData,
+): Promise<EstadoCheckout> {
+  const cabecalhos = await headers();
+  const ip = ipDaRequisicao(cabecalhos);
+  if (!limitar(`entrega:${ip}`, 20, 60_000)) {
+    return { ok: false, erro: "Muitas tentativas em pouco tempo. Aguarde um instante." };
+  }
 
-  const analise = esquemaPedido.safeParse({
-    itens,
-    cupom: texto(dados, "cupom"),
+  const itens = itensDoFormulario(dados);
+  if (itens.length === 0) {
+    return { ok: false, erro: "Selecione a voltagem para continuar", campo: "itens" };
+  }
+
+  const analise = esquemaEntrega.safeParse({
     comprador: {
       nome: texto(dados, "nome"),
       cpf: texto(dados, "cpf"),
@@ -60,6 +67,55 @@ export async function enviarPedido(
       cidade: texto(dados, "cidade"),
       estado: texto(dados, "estado"),
     },
+  });
+
+  if (!analise.success) {
+    const primeiro = analise.error.issues[0];
+    return {
+      ok: false,
+      erro: primeiro?.message ?? "Confira os dados informados",
+      campo: primeiro?.path.join("."),
+    };
+  }
+
+  await guardarDadosEntrega(analise.data);
+  redirect(`/checkout/pagamento?${itensParaConsulta(itens)}`);
+}
+
+/**
+ * Etapa 2: pagamento.
+ * Identificacao e entrega vem do cookie assinado da etapa anterior e sao
+ * revalidadas aqui. Preco e parcelamento sao sempre recalculados no servidor.
+ */
+export async function enviarPedido(
+  _anterior: EstadoCheckout,
+  dados: FormData,
+): Promise<EstadoCheckout> {
+  const cabecalhos = await headers();
+  const ip = ipDaRequisicao(cabecalhos);
+  if (!limitar(`checkout:${ip}`, 12, 60_000)) {
+    return { ok: false, erro: "Muitas tentativas em pouco tempo. Aguarde um instante." };
+  }
+
+  const itens = itensDoFormulario(dados);
+
+  const entrega = await lerDadosEntrega();
+  if (!entrega) {
+    return {
+      ok: false,
+      erro: "Seus dados de entrega expiraram. Volte e preencha novamente.",
+      campo: "entrega",
+    };
+  }
+
+  const formaPagamento = texto(dados, "formaPagamento") === "CARTAO" ? "CARTAO" : "PIX";
+  const parcelasBrutas = Number(texto(dados, "parcelas") || "1");
+
+  const analise = esquemaPedido.safeParse({
+    itens,
+    cupom: texto(dados, "cupom"),
+    comprador: entrega.comprador,
+    endereco: entrega.endereco,
     consentimentos: {
       termos: marcado(dados, "termos"),
       privacidade: marcado(dados, "privacidade"),
@@ -120,5 +176,7 @@ export async function enviarPedido(
     return { ok: false, erro: "Não foi possível concluir agora. Tente novamente em instantes." };
   }
 
+  // O pedido ja existe: o rascunho de entrega nao serve mais para nada.
+  await limparDadosEntrega();
   redirect(`/pedido/confirmacao?n=${encodeURIComponent(numeroCriado)}`);
 }

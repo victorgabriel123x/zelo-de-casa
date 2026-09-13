@@ -105,7 +105,24 @@ export type OpcaoParcela = {
   comJuros: boolean;
 };
 
-/** Calcula as opcoes de parcelamento no servidor. Sem tabela validada, 3x a 10x nao sao oferecidas. */
+/**
+ * Parcela pela tabela Price: P = PV * i / (1 - (1 + i)^-n).
+ * O total devolvido e sempre parcela x n, entao o que aparece na tela fecha
+ * com o que e cobrado, sem sobra de centavos na ultima parcela.
+ */
+function parcelaComJuros(totalCentavos: number, parcelas: number): OpcaoParcela {
+  const i = PARCELAMENTO.jurosAoMes;
+  const parcela = (totalCentavos * i) / (1 - Math.pow(1 + i, -parcelas));
+  const valorParcelaCentavos = Math.ceil(parcela);
+  return {
+    parcelas,
+    valorParcelaCentavos,
+    totalCentavos: valorParcelaCentavos * parcelas,
+    comJuros: true,
+  };
+}
+
+/** Calcula as opcoes de parcelamento no servidor. O navegador nunca decide valor. */
 export function opcoesParcelamento(totalCentavos: number): OpcaoParcela[] {
   const opcoes: OpcaoParcela[] = [];
   for (let n = 1; n <= PARCELAMENTO.semJuros; n += 1) {
@@ -116,18 +133,9 @@ export function opcoesParcelamento(totalCentavos: number): OpcaoParcela[] {
       comJuros: false,
     });
   }
-  const tabela = PARCELAMENTO.tabelaJuros;
-  if (tabela) {
+  if (PARCELAMENTO.jurosAoMes > 0) {
     for (let n = PARCELAMENTO.semJuros + 1; n <= PARCELAMENTO.maximoTecnico; n += 1) {
-      const taxa = tabela[n];
-      if (taxa === undefined) continue;
-      const total = Math.round(totalCentavos * (1 + taxa));
-      opcoes.push({
-        parcelas: n,
-        valorParcelaCentavos: Math.round(total / n),
-        totalCentavos: total,
-        comJuros: true,
-      });
+      opcoes.push(parcelaComJuros(totalCentavos, n));
     }
   }
   return opcoes;

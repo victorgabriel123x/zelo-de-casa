@@ -1,21 +1,24 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { Cabecalho } from "@/components/Cabecalho";
-import { FormularioEntrega } from "@/components/FormularioEntrega";
+import { FormularioPagamento } from "@/components/FormularioPagamento";
 import { Rodape } from "@/components/Rodape";
 import { ENV, MODO_DEMONSTRACAO } from "@/lib/ambiente";
-import { itensDaConsulta } from "@/lib/carrinho";
+import { itensDaConsulta, itensParaConsulta } from "@/lib/carrinho";
 import { lerDadosEntrega } from "@/lib/checkout-sessao";
 
 export const metadata: Metadata = {
-  title: "Dados e entrega",
+  title: "Pagamento",
   robots: { index: false, follow: false },
 };
 
 export const dynamic = "force-dynamic";
 
-/** Etapa 1: identificacao e entrega. O pagamento tem pagina propria. */
-export default async function Checkout({
+/**
+ * Etapa 2: pagamento, numa pagina so dele.
+ * Sem os dados da etapa anterior nao ha o que pagar, entao volta para /checkout.
+ */
+export default async function Pagamento({
   searchParams,
 }: {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
@@ -25,18 +28,20 @@ export default async function Checkout({
 
   if (itens.length === 0 || ENV.vendasPausadas) redirect("/#comprar");
 
-  // Quem volta da tela de pagamento reencontra os campos preenchidos.
-  const inicial = await lerDadosEntrega();
+  const voltarPara = `/checkout?${itensParaConsulta(itens)}`;
+  const entrega = await lerDadosEntrega();
+  if (!entrega) redirect(voltarPara);
 
   return (
     <>
       <Cabecalho compacto />
       <main id="conteudo" className="checkout">
         <div className="container">
-          <FormularioEntrega
+          <FormularioPagamento
             itens={itens}
+            entrega={entrega}
             modoDemonstracao={MODO_DEMONSTRACAO}
-            inicial={inicial}
+            voltarPara={voltarPara}
           />
         </div>
       </main>
