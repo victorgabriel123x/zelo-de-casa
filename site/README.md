@@ -97,9 +97,19 @@ na área do pedido nem no painel.
 
 ### Agendamento da fila
 
-`vercel.json` já traz um cron a cada 10 minutos chamando `/api/notificacoes/processar`.
-Defina `CRON_SEGREDO` e configure o cabeçalho `Authorization: Bearer CRON_SEGREDO` na
-chamada agendada. Em outra hospedagem, use qualquer agendador que faça essa requisição.
+A entrega das mensagens é tentada na hora do evento. A fila existe para reprocessar o
+que falhou, e `/api/notificacoes/processar` é o endpoint que faz isso.
+
+`vercel.json` traz um cron diário (`0 11 * * *`, 8h de Brasília) porque o plano Hobby da
+Vercel só permite uma execução por dia. Para ele funcionar, defina `CRON_SECRET` nas
+variáveis de ambiente: a Vercel assina a chamada agendada com
+`Authorization: Bearer $CRON_SECRET` sozinha, e não reconhece outro nome.
+
+Uma varredura por dia é pouco para uma loja com movimento. Para voltar ao ritmo de 10 em
+10 minutos sem pagar o plano Pro, aponte um agendador externo (cron-job.org, por exemplo)
+para `https://SEU-DOMINIO/api/notificacoes/processar` com o cabeçalho
+`Authorization: Bearer CRON_SEGREDO`. Em outra hospedagem, vale o mesmo. O endpoint aceita
+GET e POST e processa até 30 itens por chamada.
 
 ## Publicar
 

@@ -24,6 +24,10 @@ export const ENV = {
   adminSenhaHash: texto("ADMIN_SENHA_HASH"),
   segredoSessao: texto("SEGREDO_SESSAO"),
   cronSegredo: texto("CRON_SEGREDO"),
+  // A Vercel assina as chamadas agendadas com "Authorization: Bearer $CRON_SECRET"
+  // e so reconhece esse nome. Fica separado para conviver com agendadores externos,
+  // que continuam usando CRON_SEGREDO.
+  cronSecret: texto("CRON_SECRET"),
   gaId: texto("NEXT_PUBLIC_GA_ID"),
   metaPixelId: texto("NEXT_PUBLIC_META_PIXEL_ID"),
   vendasPausadas: texto("VENDAS_PAUSADAS") === "true",

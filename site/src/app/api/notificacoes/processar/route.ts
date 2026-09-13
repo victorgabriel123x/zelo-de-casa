@@ -12,11 +12,16 @@ export const dynamic = "force-dynamic";
  * com o cabecalho Authorization Bearer CRON_SEGREDO.
  */
 export async function POST(requisicao: Request) {
-  if (!ENV.cronSegredo) {
+  // CRON_SECRET atende o agendamento da propria Vercel, que assina a chamada
+  // sozinha. CRON_SEGREDO atende agendadores externos. Qualquer um dos dois vale.
+  const segredos = [ENV.cronSecret, ENV.cronSegredo].filter(
+    (valor): valor is string => Boolean(valor),
+  );
+  if (segredos.length === 0) {
     return NextResponse.json({ erro: "Agendamento não configurado" }, { status: 503 });
   }
   const autorizacao = requisicao.headers.get("authorization") ?? "";
-  if (!comparacaoSegura(autorizacao, `Bearer ${ENV.cronSegredo}`)) {
+  if (!segredos.some((segredo) => comparacaoSegura(autorizacao, `Bearer ${segredo}`))) {
     return NextResponse.json({ erro: "Não autorizado" }, { status: 401 });
   }
 
