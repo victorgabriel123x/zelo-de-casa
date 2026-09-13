@@ -25,9 +25,9 @@ export function Cabecalho({ compacto = false }: { compacto?: boolean }) {
               Voltar para a loja
             </Link>
           ) : (
-            <a href="#comprar" className="botao">
+            <Link href="/comprar" className="botao">
               Comprar agora
-            </a>
+            </Link>
           )}
         </div>
       </div>

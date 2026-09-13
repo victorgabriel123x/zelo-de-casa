@@ -3,11 +3,22 @@ import { ENV } from "@/lib/ambiente";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = ENV.siteUrl.replace(/\/$/, "");
-  const paginas = ["", "/acompanhar", "/entrega", "/trocas", "/privacidade", "/termos", "/fornecedor"];
+  // /checkout e /checkout/pagamento ficam de fora: sao etapas de um pedido em
+  // andamento, ja marcadas como noindex.
+  const paginas = [
+    "",
+    "/comprar",
+    "/acompanhar",
+    "/entrega",
+    "/trocas",
+    "/privacidade",
+    "/termos",
+    "/fornecedor",
+  ];
   return paginas.map((caminho) => ({
     url: `${base}${caminho}`,
     lastModified: new Date(),
-    changeFrequency: caminho === "" ? "weekly" : "monthly",
-    priority: caminho === "" ? 1 : 0.5,
+    changeFrequency: caminho === "" || caminho === "/comprar" ? "weekly" : "monthly",
+    priority: caminho === "" ? 1 : caminho === "/comprar" ? 0.9 : 0.5,
   }));
 }

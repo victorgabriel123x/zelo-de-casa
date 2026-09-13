@@ -23,7 +23,7 @@ export default async function Checkout({
   const consulta = await searchParams;
   const itens = itensDaConsulta(consulta);
 
-  if (itens.length === 0 || ENV.vendasPausadas) redirect("/#comprar");
+  if (itens.length === 0 || ENV.vendasPausadas) redirect("/comprar");
 
   // Quem volta da tela de pagamento reencontra os campos preenchidos.
   const inicial = await lerDadosEntrega();

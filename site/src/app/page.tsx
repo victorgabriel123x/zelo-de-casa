@@ -3,11 +3,10 @@ import { BarraCompra } from "@/components/BarraCompra";
 import { Cabecalho } from "@/components/Cabecalho";
 import { Faixa } from "@/components/Faixa";
 import { Foto } from "@/components/Foto";
-import { FormularioCompra } from "@/components/FormularioCompra";
 import { Icone } from "@/components/Icone";
 import { Revelar } from "@/components/Revelar";
 import { Rodape } from "@/components/Rodape";
-import { ENV, MODO_DEMONSTRACAO } from "@/lib/ambiente";
+import { MODO_DEMONSTRACAO } from "@/lib/ambiente";
 import { formatarCentavos } from "@/lib/dinheiro";
 import {
   BENEFICIOS,
@@ -118,10 +117,10 @@ export default function Home() {
               </aside>
 
               <div className="hero__acoes">
-                <a href="#comprar" className="botao botao--hero">
+                <Link href="/comprar" className="botao botao--hero">
                   <Icone nome="carrinho" tamanho={22} />
                   Comprar agora
-                </a>
+                </Link>
               </div>
 
               <ul className="hero__selos">
@@ -301,7 +300,8 @@ export default function Home() {
         </section>
 
         {/* ------------------------------------------------------------- oferta */}
-        <section className="secao">
+        {/* A escolha de voltagem e quantidade fica em /comprar. Aqui so a chamada. */}
+        <section className="secao" id="comprar">
           <div className="container">
             <div className="oferta__grade">
               <Revelar>
@@ -314,14 +314,51 @@ export default function Home() {
                 </div>
               </Revelar>
               <Revelar atraso={80}>
-                <div>
+                <div className="cartao-compra">
                   {MODO_DEMONSTRACAO && (
                     <p className="aviso-demo">
                       Modo demonstração. Nenhuma cobrança é feita e nenhuma mensagem é enviada
                       enquanto as credenciais de pagamento não estiverem configuradas.
                     </p>
                   )}
-                  <FormularioCompra vendasPausadas={ENV.vendasPausadas} />
+
+                  <p className="disponibilidade">{PRODUTO.disponibilidade}</p>
+                  <h2>Leve mais praticidade para sua cozinha</h2>
+
+                  <div className="resumo-preco">
+                    <p className="texto-pequeno texto-suave" style={{ margin: "0 0 6px" }}>
+                      De {formatarCentavos(PRODUTO.precoAnteriorCentavos)} por
+                    </p>
+                    <div className="resumo-linha resumo-linha--destaque">
+                      <span>Por unidade</span>
+                      <strong>{formatarCentavos(PRODUTO.precoCentavos)}</strong>
+                    </div>
+                    <p className="texto-pequeno texto-suave" style={{ marginTop: 8 }}>
+                      No Pix ou em 2x de {formatarCentavos(PRODUTO.precoCentavos / 2)} sem juros
+                    </p>
+                  </div>
+
+                  <div className="aviso-frete">
+                    <Icone nome="caminhao" tamanho={18} />
+                    <span>
+                      Frete grátis para todo o Brasil. Postagem em até{" "}
+                      {PRODUTO.prazoPostagemDiasUteis} dias úteis após a confirmação do pagamento.
+                      Entrega estimada em {PRODUTO.prazoEntregaDiasUteis} dias úteis após a
+                      postagem.
+                    </span>
+                  </div>
+
+                  <Link href="/comprar" className="botao botao--largo">
+                    <Icone nome="carrinho" tamanho={20} />
+                    Comprar agora
+                  </Link>
+
+                  <p
+                    className="texto-pequeno texto-suave"
+                    style={{ marginTop: 14, textAlign: "center" }}
+                  >
+                    Você escolhe a voltagem e a quantidade na próxima tela.
+                  </p>
                 </div>
               </Revelar>
             </div>

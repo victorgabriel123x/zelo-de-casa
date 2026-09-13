@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { formatarCentavos } from "@/lib/dinheiro";
 import { PRODUTO } from "@/lib/produto";
@@ -37,9 +38,9 @@ export function BarraCompra() {
         {formatarCentavos(PRODUTO.precoCentavos)}
         <small>no Pix ou 2x sem juros</small>
       </div>
-      <a href="#comprar" className="botao">
+      <Link href="/comprar" className="botao">
         Comprar agora
-      </a>
+      </Link>
     </div>
   );
 }

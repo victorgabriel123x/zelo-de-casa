@@ -26,7 +26,7 @@ export default async function Pagamento({
   const consulta = await searchParams;
   const itens = itensDaConsulta(consulta);
 
-  if (itens.length === 0 || ENV.vendasPausadas) redirect("/#comprar");
+  if (itens.length === 0 || ENV.vendasPausadas) redirect("/comprar");
 
   const voltarPara = `/checkout?${itensParaConsulta(itens)}`;
   const entrega = await lerDadosEntrega();
